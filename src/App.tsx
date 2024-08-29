@@ -1,25 +1,23 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { getMovies } from "./services/movieService";
-import { IMovie } from './models/IMovie';
+import "./App.css";
+import { MovieSearchApp } from "./components/MovieSearchApp";
+import { useFetch } from "./hooks/useFetch";
+import { IOmdbResponse } from "./models/IOmdbResponse";
 
 function App() {
-  const [movies, setMovies] = useState<IMovie[]>([]);
-  const [fetched, setFetched] = useState(false);
+  const [loading, response] = useFetch<IOmdbResponse>(
+    `https://omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_KEY}&s=star`
+  );
 
-  useEffect(() => {
-    if (fetched) return;
-
-    const getData = async () => {
-      const movies = await getMovies("star");
-      setMovies(movies);
-      setFetched(true);
-    };
-
-    getData();
-  });
-
-  return <>Movies: {movies.length}</>;
+  return (
+    <>
+      <div>
+        <MovieSearchApp></MovieSearchApp>
+      </div>
+      <div>
+        {loading ? <>Loading...</> : <>Movies: {response?.Search.length}</>}
+      </div>
+    </>
+  );
 }
 
 export default App;

@@ -3,10 +3,10 @@ export interface IMovie {
     Poster: string;
     Year: string;
     imdbID: string;
-}
-
-export interface IMovieExt extends IMovie {
+  }
+  
+  export interface IMovieExt extends IMovie {
     Director: string;
     Plot: string;
     Actors: string;
-}
+  }
